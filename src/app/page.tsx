@@ -57,7 +57,7 @@ export default function HomePage() {
         <h2 id="sectors-h">{t(S.featuredSectors)}</h2>
         <div className="strip">
           {SECTORS.filter((s) => s.featured).map((s) => (
-            <Link key={s.id} href={`/explore-careers?sector=${s.id}`} className="stage-card">
+            <Link key={s.id} href={`/sectors/${s.id}`} className="stage-card">
               <h3>{t(s.name)}</h3>
               <p>{t(s.short)}</p>
             </Link>
