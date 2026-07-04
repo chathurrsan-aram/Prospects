@@ -8,6 +8,7 @@ import { QUIZ_QUESTIONS, CLUSTERS, INCOME_NOTE, TAMIL_MEDIUM_NOTE, type ClusterI
 import { getJob } from "@/data/jobs";
 import Breadcrumb from "@/components/Breadcrumb";
 import JobCard from "@/components/JobCard";
+import { SECTOR_ICONS, ROUTE_ICONS } from "@/components/icons";
 
 type Answers = Record<string, number>; // questionId -> option index
 
@@ -109,6 +110,9 @@ export default function QuizPage() {
                 className={`quiz-option ${answers[question.id] === i ? "selected" : ""}`}
                 onClick={() => select(i)}
               >
+                <span className="chip" aria-hidden="true">
+                  {String.fromCharCode(65 + i)}
+                </span>
                 {t(opt.label)}
               </button>
             ))}
@@ -145,9 +149,16 @@ export default function QuizPage() {
             </div>
           )}
 
-          {results.map(({ cluster, reasonRefs }) => (
-            <section key={cluster.id} className="card" style={{ marginBottom: "1.2rem" }}>
-              <h2 style={{ marginBottom: "0.2rem" }}>{t(cluster.label)}</h2>
+          {results.map(({ cluster, reasonRefs }) => {
+            const ClusterIcon = SECTOR_ICONS[cluster.sector];
+            return (
+            <section key={cluster.id} className="card result-cluster" style={{ marginBottom: "1.2rem" }}>
+              <div className="head">
+                <span className="icon-chip" aria-hidden="true">
+                  <ClusterIcon size={28} />
+                </span>
+                <h2 style={{ margin: 0 }}>{t(cluster.label)}</h2>
+              </div>
               <p className="muted">{t(cluster.blurb)}</p>
 
               <h3>{t(S.whyMatched)}</h3>
@@ -166,11 +177,14 @@ export default function QuizPage() {
 
               <h3>{t(S.routesAvailable)}</h3>
               <div className="badges flex-wrap" style={{ marginBottom: "0.8rem" }}>
-                {cluster.routeTypes.map((r) => (
-                  <span key={r} className="badge gold">
-                    {t(ROUTE_LABELS[r])}
-                  </span>
-                ))}
+                {cluster.routeTypes.map((r) => {
+                  const RouteIcon = ROUTE_ICONS[r];
+                  return (
+                    <span key={r} className={`badge route-${r}`}>
+                      <RouteIcon size={13} /> {t(ROUTE_LABELS[r])}
+                    </span>
+                  );
+                })}
               </div>
 
               <div className="card-grid cols-2" style={{ marginBottom: "0.8rem" }}>
@@ -184,7 +198,8 @@ export default function QuizPage() {
                 {t(S.exploreCluster)} →
               </Link>
             </section>
-          ))}
+            );
+          })}
 
           {/* Post-quiz actions (spec 12.4) */}
           <div className="info-box no-print">

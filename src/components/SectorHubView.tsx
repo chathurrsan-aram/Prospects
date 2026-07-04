@@ -10,6 +10,7 @@ import JobCard from "@/components/JobCard";
 import VideoStoryCard from "@/components/VideoStoryCard";
 import Breadcrumb from "@/components/Breadcrumb";
 import PageMeta from "@/components/PageMeta";
+import { SECTOR_ICONS } from "@/components/icons";
 import type { L, SectorId } from "@/lib/types";
 
 const T = {
@@ -65,7 +66,15 @@ export default function SectorHubView({ sectorId }: { sectorId: string }) {
   return (
     <div className="container">
       <Breadcrumb items={[{ href: "/explore-careers", label: S.navExplore }, { label: sector.name }]} />
-      <h1>{t(sector.name)}</h1>
+      <div style={{ display: "flex", alignItems: "center", gap: "0.9rem", marginBottom: "0.3rem" }}>
+        <span className="icon-chip gold" aria-hidden="true">
+          {(() => {
+            const Icon = SECTOR_ICONS[sector.id];
+            return <Icon size={30} />;
+          })()}
+        </span>
+        <h1 style={{ margin: 0 }}>{t(sector.name)}</h1>
+      </div>
       <PageMeta verified={hub.verified} />
 
       {/* Sector overview (spec 5.1) */}

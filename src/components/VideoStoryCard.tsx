@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useLang } from "@/lib/i18n";
 import { S, ROUTE_LABELS } from "@/data/strings";
+import { PlayIcon } from "@/components/icons";
 import type { VideoStory } from "@/lib/types";
 
 /**
@@ -26,7 +27,7 @@ export default function VideoStoryCard({
           aria-label={`${t(S.videoStories)}: ${t(video.role)}`}
           onClick={() => alert(t(S.sampleDataNote))}
         >
-          ▶
+          <PlayIcon size={24} />
         </button>
         {video.duration && <span className="small">{video.duration}</span>}
       </div>

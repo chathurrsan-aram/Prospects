@@ -9,7 +9,14 @@ const PARTNERS = ["Tea Leaf Trust", "Yarl IT Hub", "Vanni Hope", "DreamSpace Aca
 export default function Footer() {
   const { t } = useLang();
   return (
-    <footer className="footer">
+    <footer>
+      <svg className="footer-wave" viewBox="0 0 1200 42" preserveAspectRatio="none" aria-hidden="true">
+        <path
+          d="M0 42V22C150 2 300 2 450 16 600 30 750 34 900 24 1020 16 1120 10 1200 16v26z"
+          fill="currentColor"
+        />
+      </svg>
+      <div className="footer">
       <div className="container">
         <div className="row">
           <p style={{ maxWidth: "60ch", margin: 0 }}>{t(S.mission)}</p>
@@ -41,6 +48,7 @@ export default function Footer() {
         <div className="row meta">
           {t(S.footerCopyright)} · <Link href="/about#privacy">{t(S.dataProtection)}</Link>
         </div>
+      </div>
       </div>
     </footer>
   );

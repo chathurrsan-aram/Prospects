@@ -7,6 +7,7 @@ import { useSavedList, SAVED_ROLES_KEY } from "@/lib/saved";
 import { S, ROUTE_LABELS, FEE_LABELS, WORK_LANGUAGE_LABELS } from "@/data/strings";
 import { getJob } from "@/data/jobs";
 import { getSector } from "@/data/sectors";
+import { SECTOR_ICONS, ROUTE_ICONS } from "@/components/icons";
 import { providersForJob, PROVIDER_TYPE_LABELS } from "@/data/providers";
 import { getDistrict } from "@/data/districts";
 import Breadcrumb from "@/components/Breadcrumb";
@@ -23,6 +24,7 @@ export default function JobProfile({ jobId }: { jobId: string }) {
   if (!job) return null;
 
   const sector = getSector(job.sector);
+  const SectorIcon = SECTOR_ICONS[job.sector];
   const saved = isSaved(job.id);
   const providers = providersForJob(job.id);
 
@@ -34,14 +36,22 @@ export default function JobProfile({ jobId }: { jobId: string }) {
 
       {/* Role header (spec 6.1) */}
       <div className="print-area">
-        <h1>{t(job.title)}</h1>
+        <div style={{ display: "flex", alignItems: "center", gap: "0.9rem", marginBottom: "0.4rem" }}>
+          <span className="icon-chip" aria-hidden="true">
+            <SectorIcon size={30} />
+          </span>
+          <h1 style={{ margin: 0 }}>{t(job.title)}</h1>
+        </div>
         <div className="badges flex-wrap" style={{ marginBottom: "0.5rem" }}>
           {sector && <span className="badge">{t(sector.name)}</span>}
-          {job.routeTypes.map((r) => (
-            <span key={r} className="badge gold">
-              {t(ROUTE_LABELS[r])}
-            </span>
-          ))}
+          {job.routeTypes.map((r) => {
+            const RouteIcon = ROUTE_ICONS[r];
+            return (
+              <span key={r} className={`badge route-${r}`}>
+                <RouteIcon size={13} /> {t(ROUTE_LABELS[r])}
+              </span>
+            );
+          })}
         </div>
         <p style={{ fontSize: "1.05rem", maxWidth: "70ch" }}>{t(job.short)}</p>
         <PageMeta verified={job.verified} reviewBy={job.reviewBy} />
